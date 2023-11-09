@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway-deployment
+  labels: 
+    app: api-gateway
+
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: api-gateway
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 3
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      containers:
+        - name: api-gateway
+          image: ragdoll888/humf-api-gateway:latest
+          ports:
+            - containerPort: 5000
+          envFrom:
+            - configMapRef:
+                name: api-gateway-configmap
+            - secretRef:
+                name: api-gateway-secret

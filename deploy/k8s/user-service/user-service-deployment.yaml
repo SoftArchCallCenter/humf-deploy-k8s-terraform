@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-service-deployment
+  labels: 
+    app: user-service
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-service
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 3
+  template:
+    metadata:
+      labels:
+        app: user-service
+    spec:
+      containers:
+        - name: mysql-user-service
+          image: mysql:8.1
+          ports:
+            - containerPort: 3306
+          envFrom:
+            - configMapRef:
+                name: user-service-configmap
+            - secretRef:
+                name: user-service-secret
+        - name: user-service
+          image: ragdoll888/humf-user-service:latest
+          ports:
+            - containerPort: 5000
+              name: http
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: user-service-configmap
+            - secretRef:
+                name: user-service-secret
