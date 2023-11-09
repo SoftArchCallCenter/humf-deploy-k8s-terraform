@@ -6,7 +6,7 @@ metadata:
     app: api-gateway
 
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: api-gateway
@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: api-gateway
-          image: ragdoll888/humf-api-gateway:latest
+          image: ragdoll888/humf-api-gateway:v1.0.1
           ports:
             - containerPort: 5000
           envFrom:
