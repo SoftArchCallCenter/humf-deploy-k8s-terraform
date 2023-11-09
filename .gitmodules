@@ -1,6 +1,8 @@
 [submodule "services/humf-user-service"]
 	path = services/humf-user-service
 	url = https://github.com/SoftArchCallCenter/humf-user-service.git
+	branch = v1.0.0
 [submodule "services/humf-api-gateway"]
 	path = services/humf-api-gateway
 	url = https://github.com/SoftArchCallCenter/humf-api-gateway.git
+	branch = v1.0.0
