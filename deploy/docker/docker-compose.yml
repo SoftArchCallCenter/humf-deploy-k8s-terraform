@@ -1,0 +1,175 @@
+version: '3.8'
+
+services:
+  api-gateway:
+    build: ../../../humf-api-gateway/
+    container_name: api-gateway
+    env_file:
+      - .env
+    ports:
+      - ${API_GATEWAY_PORT}:${API_GATEWAY_PORT}
+    volumes:
+      - ./src:/app/src
+    networks:
+      - humf-service-network
+
+  kitchen-service:
+    build: ../../../humf-kitchen-service/
+    container_name: kitchen-service
+    env_file:
+      - .env
+    ports:
+      - ${KITCHEN_SERVICE_PORT}:${KITCHEN_SERVICE_PORT}
+    depends_on:
+      - mysql
+    volumes:
+      - ./src:/app/src
+    command: npm run start:dev
+    networks:
+      - default
+      - humf-service-network
+
+  notification-sevice:
+    build: ../../../humf-notification-service/
+    image: noti-service:1.0
+    container_name: noti-service
+    depends_on:
+      - rabbitmq
+      - mongodb-notification
+    env_file:
+      - .env
+    ports:
+      - ${NOTIFICATION_SERVICE_PORT}:${NOTIFICATION_SERVICE_PORT}
+    command: npm run start:dev
+    networks:
+      - humf-service-network
+
+  order-service:
+    build: ../../../humf-order-service/
+    image: order-service:1.0
+    container_name: order-service
+    env_file:
+      - .env
+    ports:
+      - ${ORDER_SERVICE_PORT}:4000
+    depends_on:
+      - mongodb-order
+    command: npm run start:dev
+    networks:
+      - humf-service-network
+
+  queue-service:
+    build: ../../../humf-queue-service/
+    image: queue-service:1.0
+    container_name: queue-service
+    env_file:
+      - .env
+    ports:
+      - ${QUEUE_SERVICE_PORT}:${QUEUE_SERVICE_PORT}
+    depends_on:
+      - redis
+    command: npm run start:dev
+    networks:
+      - humf-service-network
+
+  restaurant-service:
+    build: ../../../humf-restaurant-service/
+    container_name: restaurant-service
+    env_file:
+      - .env
+    ports:
+      - ${RESTAURANT_SERVICE_PORT}:${RESTAURANT_SERVICE_PORT}
+    depends_on:
+      - mysql
+    volumes:
+      - ./src:/app/src
+    command: npm run start:dev
+    networks:
+      - default
+      - humf-service-network
+
+  mysql-kitchen:
+    image: mysql:8.0
+    container_name: mysql-kitchen-service
+    env_file:
+      - .env
+    ports: 
+      - 3307:3306
+
+  mysql-restaurant:
+    image: mysql:8.0
+    container_name: mysql-restaurant-service
+    env_file:
+      - .env
+    ports:
+      - 3307:3306
+
+  mongodb-order:
+    image: mongo:7.0.2-jammy
+    container_name: mongodb-order-service
+    expose:
+      - 27017
+    volumes:
+      - dbdata-order:/data/db
+    networks:
+      - humf-service-network
+
+  mongodb-notification:
+    image: mongo:7.0.2-jammy
+    container_name: mongodb-notification-service
+    env_file:
+      - .env
+    expose:
+      - 27017
+    volumes:
+      - dbdata-notification:/data/db
+    networks:
+      - humf-service-network
+
+  rabbitmq:
+    image: rabbitmq:3.8.3-management
+    container_name: rabbitmq
+    volumes:
+      - rabbitmq:/var/lib/rabbitmq
+    ports:
+      - 5672:5672
+    expose:
+      - 5672
+    networks:
+      - humf-service-network
+
+  redis:
+    image: bitnami/redis:6.2.14-debian-11-r0
+     container_name: redis
+    env_file:
+      - .env
+    environment:
+      - REDIS_PASSWORD=${QUEUE_SERVICE_REDIS_PASSWORD}
+    ports:
+      - 6379:6379
+    expose:
+      - 6379
+    volumes:
+      - redis-data-queue:/bitnami/redis/data
+    networks:
+      - humf-service-network
+
+volumes:
+  rabbitmq:
+    name: rabbitmq
+    external: true
+  dbdata-notification:
+    name: dbdata-notification
+    external: true
+  dbdata-order:
+    name: dbdata-order
+    external: true
+  redis-data-queue:
+    name: redis-data-queue
+    external: true
+  
+networks:
+  humf-service-network:
+    name: humf-service-network
+    driver: bridge
+    external: true
