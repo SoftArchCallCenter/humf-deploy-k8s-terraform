@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: restaurant-service-deployment
+  labels: 
+    app: restaurant-service
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: restaurant-service
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 3
+  template:
+    metadata:
+      labels:
+        app: restaurant-service
+    spec:
+      containers:
+        - name: mysql-restaurant-service
+          image: mysql:8.1
+          ports:
+            - containerPort: 3306
+          envFrom:
+            - configMapRef:
+                name: restaurant-service-configmap
+            - secretRef:
+                name: restaurant-service-secret
+        - name: restaurant-service
+          image: ragdoll888/humf-restaurant-service:v1.0.0
+          ports:
+            - containerPort: 5000
+              name: grpc
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: restaurant-service-configmap
+            - secretRef:
+                name: restaurant-service-secret
