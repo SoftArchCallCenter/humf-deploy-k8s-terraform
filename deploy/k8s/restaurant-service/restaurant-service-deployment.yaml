@@ -33,7 +33,7 @@ spec:
           image: ragdoll888/humf-restaurant-service:v1.0.0
           ports:
             - containerPort: 5000
-              name: grpc
+              name: http
               protocol: TCP
           envFrom:
             - configMapRef:
