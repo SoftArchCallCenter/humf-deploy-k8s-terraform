@@ -1,0 +1,83 @@
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: mysql-user-service-deployment
+#   labels: 
+#     app: user-service
+
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: mysql-user-service
+#   strategy:
+#     type: RollingUpdate
+#     rollingUpdate:
+#       maxSurge: 3
+#   template:
+#     metadata:
+#       labels:
+#         app: mysql-user-service
+#     spec:
+#       containers:
+#         - name: mysql-user-service
+#           image: mysql:8.1
+#           ports:
+#             - containerPort: 3306
+#           envFrom:
+#             - configMapRef:
+#                 name: user-service-configmap
+#             - secretRef:
+#                 name: user-service-secret
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-user-service-deployment
+  labels: 
+    app: user-service
+
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mysql-user-service
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 3
+  template:
+    metadata:
+      labels:
+        app: mysql-user-service
+    spec:
+      containers:
+        - name: mysql-user-service
+          image: mysql:8.1
+          ports:
+            - containerPort: 3306
+          envFrom:
+            - configMapRef:
+                name: user-service-configmap
+            - secretRef:
+                name: user-service-secret
+          volumeMounts:
+            - name: mysql-persistent-storage
+              mountPath: /var/lib/mysql # Adjust the mount path to the appropriate location within the container
+
+      volumes:
+        - name: mysql-persistent-storage
+          persistentVolumeClaim:
+            claimName: mysql-pvc # Name for the PersistentVolumeClaim
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: mysql-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi # Define the amount of storage needed
+

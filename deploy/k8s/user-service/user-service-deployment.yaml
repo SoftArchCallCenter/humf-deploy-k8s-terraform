@@ -20,15 +20,6 @@ spec:
         app: user-service
     spec:
       containers:
-        - name: mysql-user-service
-          image: mysql:8.1
-          ports:
-            - containerPort: 3306
-          envFrom:
-            - configMapRef:
-                name: user-service-configmap
-            - secretRef:
-                name: user-service-secret
         - name: user-service
           image: ragdoll888/humf-user-service:v1.0.1
           ports:
