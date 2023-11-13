@@ -6,12 +6,13 @@ data:
   USER_SERVICE_HOST: "0.0.0.0"
   USER_SERVICE_PORT: "5000"
   MYSQL_ROOT_PASSWORD: "randomp"
-  MYSQL_DATABASE: "humf_user"
-  MYSQL_HOST: "mysql-user-service"
-  # MYSQL_HOST: "localhost"
+  MYSQL_DATABASE: "humf_user_df"
+  # MYSQL_HOST: "mysql-user-service"
+  MYSQL_HOST: "localhost"
   MYSQL_PORT: "3306"
   MYSQL_USERNAME: "root"
   MYSQL_PASSWORD: "randomp"
   MYSQL_SYNCHRONIZE: "true"
+  # MYSQL_SYNCHRONIZE: "false"
 
 
