@@ -10,4 +10,3 @@ data:
   
   RESTAURANT_SERVICE_PORT: "5000"
   RESTAURANT_SERVICE_URL: "restaurant-service:5000"
-
