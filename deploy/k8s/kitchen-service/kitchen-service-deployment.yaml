@@ -28,7 +28,7 @@ spec:
         #     - configMapRef:
         #         name: kitchen-service-configmap
         - name: kitchen-service
-          image: ragdoll888/humf-kitchen-service:v3.0.0
+          image: ragdoll888/humf-kitchen-service:v3.0.1
           ports:
             - containerPort: 5000
               name: grpc
