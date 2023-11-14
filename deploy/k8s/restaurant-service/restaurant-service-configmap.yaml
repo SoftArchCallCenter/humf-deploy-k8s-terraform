@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: restaurant-service-configmap
+data:
+  URL: "0.0.0.0:5000"
+  RESTAURANT_SERVICE_PORT: "5000"
+  MYSQL_ROOT_PASSWORD: "randomp"
+  MYSQL_DATABASE: "humf_restaurant_db"
+  MYSQL_USER: "p"
+  MYSQL_PASSWORD: "randomp"
+  MYSQL_PORT: "3306"
+  MYSQL_HOST: "localhost"
+  # MYSQL_HOST: "mysql-restaurant-service"
+  MYSQL_SYNCHRONIZE: "true"
+
+  NODE_ENV: "development"
