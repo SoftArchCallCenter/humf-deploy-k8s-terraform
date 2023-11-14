@@ -30,7 +30,7 @@ spec:
             - configMapRef:
                 name: queue-service-configmap
         - name: queue-service
-          image: bbbbz/humf-queue-service:1.0.0
+          image: ragdoll888/humf-queue-service:v3.0.0
           ports:
             - containerPort: 5000
               name: grpc

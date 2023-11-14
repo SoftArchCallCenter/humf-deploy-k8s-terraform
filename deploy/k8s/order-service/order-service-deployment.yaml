@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: order-service
-          image: ragdoll888/humf-order-service:v1.0.0
+          image: ragdoll888/humf-order-service:v3.0.0
           ports:
             - containerPort: 5000
               name: http

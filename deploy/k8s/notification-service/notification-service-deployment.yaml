@@ -30,7 +30,7 @@ spec:
             - configMapRef:
                 name: notification-service-configmap
         - name: notification-service
-          image: bbbbz/humf-notification-service:1.0.0
+          image: ragdoll888/humf-notification-service:v3.0.0
           ports:
             - containerPort: 5000
               name: grpc

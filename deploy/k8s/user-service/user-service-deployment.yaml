@@ -30,7 +30,7 @@ spec:
             - secretRef:
                 name: user-service-secret
         - name: user-service
-          image: ragdoll888/humf-user-service:v1.0.1
+          image: ragdoll888/humf-user-service:v3.0.0
           ports:
             - containerPort: 5000
               name: http

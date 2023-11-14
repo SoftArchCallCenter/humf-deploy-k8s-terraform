@@ -30,7 +30,7 @@ spec:
             - secretRef:
                 name: restaurant-service-secret
         - name: restaurant-service
-          image: ragdoll888/humf-restaurant-service:v1.0.1
+          image: ragdoll888/humf-restaurant-service:v3.0.0
           ports:
             - containerPort: 5000
               name: http

@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: api-gateway
-          image: ragdoll888/humf-api-gateway:v1.1.1
+          image: ragdoll888/humf-api-gateway:v3.0.0
           ports:
             - containerPort: 5000
             - containerPort: 5001
