@@ -1,15 +1,15 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mysql-restaurant-service-deployment
+  name: mysql-kitchen-service-deployment
   labels: 
-    app: mysql-restaurant-service
+    app: mysql-kitchen-service
 
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mysql-restaurant-service
+      app: mysql-kitchen-service
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -17,18 +17,16 @@ spec:
   template:
     metadata:
       labels:
-        app: mysql-restaurant-service
+        app: mysql-kitchen-service
     spec:
       containers:
-        - name: mysql-restaurant-service
+        - name: mysql-kitchen-service
           image: mysql:8.1
           ports:
             - containerPort: 3306
           envFrom:
             - configMapRef:
-                name: restaurant-service-configmap
-            - secretRef:
-                name: restaurant-service-secret
+                name: kitchen-service-configmap
           volumeMounts:
             - name: mysql-persistent-storage
               mountPath: /var/lib/mysql
@@ -36,13 +34,13 @@ spec:
       volumes:
         - name: mysql-persistent-storage
           persistentVolumeClaim:
-            claimName: restaurant-mysql-pvc
+            claimName: kitchen-mysql-pvc
 
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: restaurant-mysql-pvc
+  name: kitchen-mysql-pvc
 spec:
   accessModes:
     - ReadWriteOnce

@@ -20,6 +20,15 @@ spec:
         app: order-service
     spec:
       containers:
+        - name: mongodb-order-service
+          image: mongo:7.0.2-jammy
+          ports:
+            - containerPort: 27017
+              name: https
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: order-service-configmap
         - name: order-service
           image: ragdoll888/humf-order-service:v3.0.0
           ports:

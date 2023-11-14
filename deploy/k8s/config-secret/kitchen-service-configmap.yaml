@@ -7,7 +7,8 @@ data:
   KITCHEN_SERVICE_PORT: "5000"
   MYSQL_ROOT_PASSWORD: "randomp"
   MYSQL_DATABASE: humf_kitchen_db
-  MYSQL_HOST: "localhost"
+  # MYSQL_HOST: "localhost"
+  MYSQL_HOST: "mysql-kitchen-service"
   MYSQL_PORT: "3306"
   MYSQL_USERNAME: root
   MYSQL_PASSWORD: randomp
