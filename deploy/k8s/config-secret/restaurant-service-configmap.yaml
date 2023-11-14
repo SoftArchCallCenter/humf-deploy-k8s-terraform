@@ -10,8 +10,8 @@ data:
   MYSQL_USER: "p"
   MYSQL_PASSWORD: "randomp"
   MYSQL_PORT: "3306"
-  MYSQL_HOST: "localhost"
-  # MYSQL_HOST: "mysql-restaurant-service"
+  # MYSQL_HOST: "localhost"
+  MYSQL_HOST: "mysql-restaurant-service"
   MYSQL_SYNCHRONIZE: "true"
 
   NODE_ENV: "development"
