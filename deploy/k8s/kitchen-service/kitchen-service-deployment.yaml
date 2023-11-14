@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kitchen-service-deployment
+  labels: 
+    app: kitchen-service
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kitchen-service
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 3
+  template:
+    metadata:
+      labels:
+        app: kitchen-service
+    spec:
+      containers:
+        - name: mysql-kitchen-service
+          image: mysql:8.1
+          ports:
+            - containerPort: 3306
+          envFrom:
+            - configMapRef:
+                name: kitchen-service-configmap
+        - name: kitchen-service
+          image: bbbbz/humf-kitchen-service:1.0.1
+          ports:
+            - containerPort: 5000
+              name: grpc
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: kitchen-service-configmap

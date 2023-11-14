@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: queue-service-deployment
+  labels: 
+    app: queue-service
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: queue-service
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 3
+  template:
+    metadata:
+      labels:
+        app: queue-service
+    spec:
+      containers:
+        - name: redis-queue-service
+          image: bitnami/redis:6.2.14-debian-11-r0
+          ports:
+            - containerPort: 6379
+              name: https
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: queue-service-configmap
+        - name: queue-service
+          image: bbbbz/humf-queue-service:1.0.0
+          ports:
+            - containerPort: 5000
+              name: grpc
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: queue-service-configmap
